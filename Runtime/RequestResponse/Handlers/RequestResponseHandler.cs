@@ -96,11 +96,16 @@ namespace PurrNet.Insthync.ResquestResponse
                 requestId = requestId,
                 data = Writer.ToByteData().span.ToArray(),
             };
-            // Send request
             if (playerId.isServer)
+            {
+                // Send request to server
                 Manager.NetworkManager.SendToServer(requestMessage);
+            }
             else
+            {
+                // Send request to client
                 Manager.NetworkManager.Send(playerId, requestMessage);
+            }
             return true;
         }
 
@@ -124,12 +129,12 @@ namespace PurrNet.Insthync.ResquestResponse
                 };
                 if (asServer)
                 {
-                    // Response to client
+                    // Request received at server, so response to client
                     Manager.NetworkManager.Send(playerId, responseMessage);
                 }
                 else
                 {
-                    // Response to server
+                    // Request received at client, so response to server
                     Manager.NetworkManager.SendToServer(responseMessage);
                 }
                 Debug.LogError($"Cannot proceed request {requestType} not registered.");

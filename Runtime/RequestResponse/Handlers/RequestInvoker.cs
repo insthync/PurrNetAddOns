@@ -51,15 +51,14 @@ namespace PurrNet.Insthync.ResquestResponse
                 responseCode = responseCode,
                 data = _handler.Writer.ToByteData().span.ToArray(),
             };
-            // Send response
             if (asServer)
             {
-                // Response to client
+                // Request received at server, so response to client
                 _handler.Manager.NetworkManager.Send(playerId, responseMessage);
             }
             else
             {
-                // Response to server
+                // Request received at client, so response to server
                 _handler.Manager.NetworkManager.SendToServer(responseMessage);
             }
         }
